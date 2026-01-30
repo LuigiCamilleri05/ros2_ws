@@ -1,0 +1,44 @@
+.
+├── camera_follower_tree.txt
+├── my_robot_bringup
+│   ├── CMakeLists.txt
+│   ├── config
+│   │   └── gazebo_bridge.yaml
+│   ├── include
+│   │   └── my_robot_bringup
+│   ├── launch
+│   │   └── gazebo.launch.xml
+│   ├── package.xml
+│   ├── src
+│   └── worlds
+│       └── test_world.sdf
+├── my_robot_control
+│   ├── my_robot_control
+│   │   ├── camera_follower.py
+│   │   └── __init__.py
+│   ├── package.xml
+│   ├── resource
+│   │   └── my_robot_control
+│   ├── scripts
+│   ├── setup.cfg
+│   ├── setup.py
+│   └── test
+│       ├── test_copyright.py
+│       ├── test_flake8.py
+│       └── test_pep257.py
+└── my_robot_description
+    ├── CMakeLists.txt
+    ├── include
+    │   └── my_robot_description
+    ├── package.xml
+    ├── rviz
+    ├── src
+    └── urdf
+        ├── camera.xacro
+        ├── common_properties.xacro
+        ├── lidar.xacro
+        ├── mobile_base_gazebo.xacro
+        ├── mobile_base.xacro
+        └── my_robot.urdf.xacro
+
+19 directories, 23 files

@@ -1,0 +1,22 @@
+[0.242s] Invoking command in '/home/luigi/ros2_ws/build/my_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_cpp_pkg -- -j5 -l5
+[2.026s] [100%] Built target cpp_node
+[2.036s] Invoked command in '/home/luigi/ros2_ws/build/my_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_cpp_pkg -- -j5 -l5
+[2.094s] Invoking command in '/home/luigi/ros2_ws/build/my_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_cpp_pkg
+[2.166s] -- Install configuration: ""
+[2.190s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/lib/my_cpp_pkg/cpp_node
+[2.190s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/ament_index/resource_index/package_run_dependencies/my_cpp_pkg
+[2.190s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/ament_index/resource_index/parent_prefix_path/my_cpp_pkg
+[2.190s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/ament_prefix_path.sh
+[2.190s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/ament_prefix_path.dsv
+[2.190s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/path.sh
+[2.208s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/path.dsv
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.bash
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.sh
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.zsh
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.dsv
+[2.210s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/package.dsv
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/ament_index/resource_index/packages/my_cpp_pkg
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/cmake/my_cpp_pkgConfig.cmake
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/cmake/my_cpp_pkgConfig-version.cmake
+[2.210s] -- Up-to-date: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/package.xml
+[2.259s] Invoked command in '/home/luigi/ros2_ws/build/my_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_cpp_pkg

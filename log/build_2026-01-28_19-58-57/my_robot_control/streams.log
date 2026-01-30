@@ -1,0 +1,41 @@
+[2.930s] Invoking command in '/home/luigi/ros2_ws/src/my_robot_control': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/luigi/ros2_ws/build/my_robot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_robot_control build --build-base /home/luigi/ros2_ws/build/my_robot_control/build install --record /home/luigi/ros2_ws/build/my_robot_control/install.log --single-version-externally-managed install_data
+[3.535s] running egg_info
+[3.535s] creating ../../build/my_robot_control/my_robot_control.egg-info
+[3.567s] writing ../../build/my_robot_control/my_robot_control.egg-info/PKG-INFO
+[3.570s] writing dependency_links to ../../build/my_robot_control/my_robot_control.egg-info/dependency_links.txt
+[3.571s] writing entry points to ../../build/my_robot_control/my_robot_control.egg-info/entry_points.txt
+[3.572s] writing requirements to ../../build/my_robot_control/my_robot_control.egg-info/requires.txt
+[3.572s] writing top-level names to ../../build/my_robot_control/my_robot_control.egg-info/top_level.txt
+[3.573s] writing manifest file '../../build/my_robot_control/my_robot_control.egg-info/SOURCES.txt'
+[3.662s] reading manifest file '../../build/my_robot_control/my_robot_control.egg-info/SOURCES.txt'
+[3.678s] writing manifest file '../../build/my_robot_control/my_robot_control.egg-info/SOURCES.txt'
+[3.679s] running build
+[3.679s] running build_py
+[3.679s] creating /home/luigi/ros2_ws/build/my_robot_control/build
+[3.681s] creating /home/luigi/ros2_ws/build/my_robot_control/build/lib
+[3.681s] creating /home/luigi/ros2_ws/build/my_robot_control/build/lib/my_robot_control
+[3.683s] copying my_robot_control/dynamic_obstacles.py -> /home/luigi/ros2_ws/build/my_robot_control/build/lib/my_robot_control
+[3.693s] copying my_robot_control/camera_follower.py -> /home/luigi/ros2_ws/build/my_robot_control/build/lib/my_robot_control
+[3.693s] copying my_robot_control/__init__.py -> /home/luigi/ros2_ws/build/my_robot_control/build/lib/my_robot_control
+[3.696s] running install
+[3.710s] running install_lib
+[3.752s] creating /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control
+[3.753s] copying /home/luigi/ros2_ws/build/my_robot_control/build/lib/my_robot_control/dynamic_obstacles.py -> /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control
+[3.754s] copying /home/luigi/ros2_ws/build/my_robot_control/build/lib/my_robot_control/camera_follower.py -> /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control
+[3.755s] copying /home/luigi/ros2_ws/build/my_robot_control/build/lib/my_robot_control/__init__.py -> /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control
+[3.755s] byte-compiling /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control/dynamic_obstacles.py to dynamic_obstacles.cpython-312.pyc
+[3.756s] byte-compiling /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control/camera_follower.py to camera_follower.cpython-312.pyc
+[3.760s] byte-compiling /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control/__init__.py to __init__.cpython-312.pyc
+[3.760s] running install_data
+[3.761s] creating /home/luigi/ros2_ws/install/my_robot_control/share/ament_index
+[3.762s] creating /home/luigi/ros2_ws/install/my_robot_control/share/ament_index/resource_index
+[3.763s] creating /home/luigi/ros2_ws/install/my_robot_control/share/ament_index/resource_index/packages
+[3.764s] copying resource/my_robot_control -> /home/luigi/ros2_ws/install/my_robot_control/share/ament_index/resource_index/packages
+[3.764s] copying package.xml -> /home/luigi/ros2_ws/install/my_robot_control/share/my_robot_control
+[3.766s] running install_egg_info
+[3.827s] Copying ../../build/my_robot_control/my_robot_control.egg-info to /home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages/my_robot_control-0.0.0-py3.12.egg-info
+[3.848s] running install_scripts
+[4.172s] Installing camera_follower script to /home/luigi/ros2_ws/install/my_robot_control/lib/my_robot_control
+[4.172s] Installing dynamic_obstacles script to /home/luigi/ros2_ws/install/my_robot_control/lib/my_robot_control
+[4.174s] writing list of installed files to '/home/luigi/ros2_ws/build/my_robot_control/install.log'
+[4.299s] Invoked command in '/home/luigi/ros2_ws/src/my_robot_control' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/luigi/ros2_ws/build/my_robot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/luigi/ros2_ws/install/my_robot_control/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_robot_control build --build-base /home/luigi/ros2_ws/build/my_robot_control/build install --record /home/luigi/ros2_ws/build/my_robot_control/install.log --single-version-externally-managed install_data

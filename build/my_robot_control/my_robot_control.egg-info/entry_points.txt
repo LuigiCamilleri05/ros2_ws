@@ -1,0 +1,3 @@
+[console_scripts]
+camera_follower = my_robot_control.camera_follower:main
+dynamic_obstacles = my_robot_control.dynamic_obstacles:main
