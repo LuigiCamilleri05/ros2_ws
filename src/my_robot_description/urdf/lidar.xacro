@@ -1,19 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- ===================== -->
-  <!-- LIDAR PARAMETERS      -->
-  <!-- ===================== -->
+  <!-- LIDAR Parameters -->
   <xacro:property name="lidar_radius" value="0.04"/>
   <xacro:property name="lidar_height" value="0.05"/>
-
-  <!-- Mount pose relative to base_link -->
   <xacro:property name="lidar_xyz" value="0.20 0.0 0.22"/>
   <xacro:property name="lidar_rpy" value="0 0 0"/>
 
-  <!-- ===================== -->
-  <!-- LIDAR LINK            -->
-  <!-- ===================== -->
+  <!-- LIDAR Link -->
   <link name="lidar_link">
     <visual>
       <geometry>
@@ -21,70 +15,53 @@
       </geometry>
       <material name="grey"/>
     </visual>
-
     <collision>
       <geometry>
         <cylinder radius="${lidar_radius}" length="${lidar_height}"/>
       </geometry>
     </collision>
-
     <inertial>
       <mass value="0.2"/>
-      <inertia
-        ixx="0.0002" ixy="0.0" ixz="0.0"
-        iyy="0.0002" iyz="0.0"
-        izz="0.0002"/>
+      <inertia ixx="0.0002" ixy="0.0" ixz="0.0" iyy="0.0002" iyz="0.0" izz="0.0002"/>
     </inertial>
   </link>
 
-  <!-- ===================== -->
-  <!-- FIXED JOINT TO BASE   -->
-  <!-- ===================== -->
+  <!-- Fixed Joint to Base -->
   <joint name="base_lidar_joint" type="fixed">
     <origin xyz="${lidar_xyz}" rpy="${lidar_rpy}"/>
     <parent link="base_link"/>
     <child link="lidar_link"/>
   </joint>
 
-  <!-- ===================== -->
-  <!-- GAZEBO LIDAR SENSOR   -->
-  <!-- ===================== -->
-<gazebo reference="lidar_link">
-  <sensor name="lidar" type="lidar">
-    <pose>0 0 0 0 0 0</pose>
-    <always_on>true</always_on>
-    <update_rate>10</update_rate>
-    <visualize>true</visualize>
-
-    <!-- Keep it simple & consistent with your bridge -->
-    <topic>scan</topic>
-
-    <lidar>
-      <scan>
-        <horizontal>
-          <samples>720</samples>
-          <resolution>1</resolution>
-          <min_angle>-1.57079632679</min_angle>
-          <max_angle> 1.57079632679</max_angle>
-        </horizontal>
-      </scan>
-
-      <range>
-        <min>0.12</min>
-        <max>10.0</max>
-        <resolution>0.01</resolution>
-      </range>
-
-      <noise>
-        <type>gaussian</type>
-        <mean>0.0</mean>
-        <stddev>0.01</stddev>
-      </noise>
-    </lidar>
-  </sensor>
-</gazebo>
-
-
+  <!-- Gazebo LIDAR Sensor (GPU Lidar for Gazebo Fortress/Harmonic) -->
+  <gazebo reference="lidar_link">
+    <sensor name="gpu_lidar" type="gpu_lidar">
+      <update_rate>10</update_rate>
+      <topic>scan</topic>
+      <gz_frame_id>lidar_link</gz_frame_id>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.12</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
 
 </robot>
-
