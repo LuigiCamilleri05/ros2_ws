@@ -23,7 +23,7 @@
             <geometry>
                 <box size="${base_length} ${base_width} ${base_height}" />
             </geometry>
-            <origin xyz="0 0 ${base_height / 2.0}" rpy="0 0 0" /> 
+            <origin xyz="0 0 ${base_height / 2.0}" rpy="0 0 0" />
         </collision>
     </link>
 
@@ -40,9 +40,9 @@
                                     o_xyz="0 0 0" o_rpy="${pi / 2.0} 0 0" />
             <collision>
                 <geometry>
-                    <sphere radius="${wheel_radius}"/>
+                    <sphere radius="${wheel_radius}" />
                 </geometry>
-                <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0" />    
+                <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0" />
             </collision>
         </link>
     </xacro:macro>
@@ -60,19 +60,18 @@
         </visual>
         <xacro:sphere_inertia m="0.5" r="${wheel_radius / 2.0}"
                               o_xyz="0 0 0" o_rpy="0 0 0" />
-
         <collision>
             <geometry>
-                <sphere radius="${wheel_radius}"/>
+                <sphere radius="${wheel_radius}" />
             </geometry>
-            <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0" />    
+            <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0" />
         </collision>
     </link>
 
     <joint name="base_joint" type="fixed">
         <parent link="base_footprint" />
         <child link="base_link" />
-        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0" />
     </joint>
 
     <joint name="base_right_wheel_joint" type="continuous">
