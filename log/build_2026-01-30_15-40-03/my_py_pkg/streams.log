@@ -1,0 +1,59 @@
+[9.314s] Invoking command in '/home/luigi/ros2_ws/src/my_py_pkg': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/luigi/ros2_ws/build/my_py_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_py_pkg build --build-base /home/luigi/ros2_ws/build/my_py_pkg/build install --record /home/luigi/ros2_ws/build/my_py_pkg/install.log --single-version-externally-managed install_data
+[10.812s] running egg_info
+[10.815s] creating ../../build/my_py_pkg/my_py_pkg.egg-info
+[10.895s] writing ../../build/my_py_pkg/my_py_pkg.egg-info/PKG-INFO
+[10.896s] writing dependency_links to ../../build/my_py_pkg/my_py_pkg.egg-info/dependency_links.txt
+[10.899s] writing entry points to ../../build/my_py_pkg/my_py_pkg.egg-info/entry_points.txt
+[10.899s] writing requirements to ../../build/my_py_pkg/my_py_pkg.egg-info/requires.txt
+[10.900s] writing top-level names to ../../build/my_py_pkg/my_py_pkg.egg-info/top_level.txt
+[10.900s] writing manifest file '../../build/my_py_pkg/my_py_pkg.egg-info/SOURCES.txt'
+[11.085s] reading manifest file '../../build/my_py_pkg/my_py_pkg.egg-info/SOURCES.txt'
+[11.094s] writing manifest file '../../build/my_py_pkg/my_py_pkg.egg-info/SOURCES.txt'
+[11.098s] running build
+[11.114s] running build_py
+[11.115s] creating /home/luigi/ros2_ws/build/my_py_pkg/build
+[11.116s] creating /home/luigi/ros2_ws/build/my_py_pkg/build/lib
+[11.117s] creating /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.118s] copying my_py_pkg/add_two_ints_client_no_oop.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.118s] copying my_py_pkg/simple_subscriber.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.119s] copying my_py_pkg/simple_publisher.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.119s] copying my_py_pkg/robot_news_station.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.119s] copying my_py_pkg/__init__.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.120s] copying my_py_pkg/my_first_node_class.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.121s] copying my_py_pkg/my_first_node.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.122s] copying my_py_pkg/add_two_ints_server.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.122s] copying my_py_pkg/smart_phone.py -> /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg
+[11.122s] running install
+[11.137s] running install_lib
+[11.260s] creating /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.260s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/add_two_ints_client_no_oop.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.264s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/simple_subscriber.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.273s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/simple_publisher.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.273s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/robot_news_station.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.275s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/__init__.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.277s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/my_first_node_class.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.280s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/my_first_node.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.283s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/add_two_ints_server.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.287s] copying /home/luigi/ros2_ws/build/my_py_pkg/build/lib/my_py_pkg/smart_phone.py -> /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg
+[11.289s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/add_two_ints_client_no_oop.py to add_two_ints_client_no_oop.cpython-312.pyc
+[11.292s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/simple_subscriber.py to simple_subscriber.cpython-312.pyc
+[11.294s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/simple_publisher.py to simple_publisher.cpython-312.pyc
+[11.297s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/robot_news_station.py to robot_news_station.cpython-312.pyc
+[11.300s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/__init__.py to __init__.cpython-312.pyc
+[11.302s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/my_first_node_class.py to my_first_node_class.cpython-312.pyc
+[11.305s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/my_first_node.py to my_first_node.cpython-312.pyc
+[11.306s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/add_two_ints_server.py to add_two_ints_server.cpython-312.pyc
+[11.307s] byte-compiling /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg/smart_phone.py to smart_phone.cpython-312.pyc
+[11.311s] running install_data
+[11.312s] creating /home/luigi/ros2_ws/install/my_py_pkg/share/ament_index
+[11.312s] creating /home/luigi/ros2_ws/install/my_py_pkg/share/ament_index/resource_index
+[11.314s] creating /home/luigi/ros2_ws/install/my_py_pkg/share/ament_index/resource_index/packages
+[11.314s] copying resource/my_py_pkg -> /home/luigi/ros2_ws/install/my_py_pkg/share/ament_index/resource_index/packages
+[11.315s] copying package.xml -> /home/luigi/ros2_ws/install/my_py_pkg/share/my_py_pkg
+[11.315s] running install_egg_info
+[11.412s] Copying ../../build/my_py_pkg/my_py_pkg.egg-info to /home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages/my_py_pkg-0.0.0-py3.12.egg-info
+[11.418s] running install_scripts
+[12.063s] Installing add_two_ints_client_no_oop script to /home/luigi/ros2_ws/install/my_py_pkg/lib/my_py_pkg
+[12.063s] Installing add_two_ints_server script to /home/luigi/ros2_ws/install/my_py_pkg/lib/my_py_pkg
+[12.063s] writing list of installed files to '/home/luigi/ros2_ws/build/my_py_pkg/install.log'
+[12.189s] Invoked command in '/home/luigi/ros2_ws/src/my_py_pkg' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/luigi/ros2_ws/build/my_py_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/luigi/ros2_ws/install/my_py_pkg/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_py_pkg build --build-base /home/luigi/ros2_ws/build/my_py_pkg/build install --record /home/luigi/ros2_ws/build/my_py_pkg/install.log --single-version-externally-managed install_data

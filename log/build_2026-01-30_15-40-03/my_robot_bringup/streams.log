@@ -1,0 +1,52 @@
+[1.555s] Invoking command in '/home/luigi/ros2_ws/build/my_robot_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/luigi/ros2_ws/src/my_robot_bringup -DCMAKE_INSTALL_PREFIX=/home/luigi/ros2_ws/install/my_robot_bringup
+[2.069s] -- The C compiler identification is GNU 13.3.0
+[2.923s] -- The CXX compiler identification is GNU 13.3.0
+[3.131s] -- Detecting C compiler ABI info
+[3.914s] -- Detecting C compiler ABI info - done
+[3.992s] -- Check for working C compiler: /usr/bin/cc - skipped
+[3.998s] -- Detecting C compile features
+[4.006s] -- Detecting C compile features - done
+[4.145s] -- Detecting CXX compiler ABI info
+[5.159s] -- Detecting CXX compiler ABI info - done
+[5.243s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[5.246s] -- Detecting CXX compile features
+[5.253s] -- Detecting CXX compile features - done
+[5.395s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[6.643s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[7.829s] -- Found ament_lint_auto: 0.17.3 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[8.729s] -- Added test 'flake8' to check Python code syntax and style conventions
+[8.729s] -- Configured 'flake8' exclude dirs and/or files: 
+[8.748s] -- Added test 'lint_cmake' to check CMake code style
+[8.772s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[8.813s] -- Added test 'xmllint' to check XML markup files
+[8.847s] -- Configuring done (7.2s)
+[8.867s] -- Generating done (0.0s)
+[8.924s] -- Build files have been written to: /home/luigi/ros2_ws/build/my_robot_bringup
+[8.938s] Invoked command in '/home/luigi/ros2_ws/build/my_robot_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/luigi/ros2_ws/src/my_robot_bringup -DCMAKE_INSTALL_PREFIX=/home/luigi/ros2_ws/install/my_robot_bringup
+[8.946s] Invoking command in '/home/luigi/ros2_ws/build/my_robot_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_robot_bringup -- -j5 -l5
+[9.281s] Invoked command in '/home/luigi/ros2_ws/build/my_robot_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_robot_bringup -- -j5 -l5
+[9.355s] Invoking command in '/home/luigi/ros2_ws/build/my_robot_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_robot_bringup
+[9.394s] -- Install configuration: ""
+[9.416s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/launch
+[9.416s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/launch/my_robot_gazebo.launch.xml
+[9.416s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/launch/gazebo.launch.xml
+[9.417s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/config
+[9.421s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/config/gazebo_bridge.yaml
+[9.421s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/worlds
+[9.421s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/worlds/test_world.sdf
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/ament_index/resource_index/package_run_dependencies/my_robot_bringup
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/ament_index/resource_index/parent_prefix_path/my_robot_bringup
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/environment/ament_prefix_path.sh
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/environment/ament_prefix_path.dsv
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/environment/path.sh
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/environment/path.dsv
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/local_setup.bash
+[9.422s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/local_setup.sh
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/local_setup.zsh
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/local_setup.dsv
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/package.dsv
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/ament_index/resource_index/packages/my_robot_bringup
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/cmake/my_robot_bringupConfig.cmake
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/cmake/my_robot_bringupConfig-version.cmake
+[9.430s] -- Installing: /home/luigi/ros2_ws/install/my_robot_bringup/share/my_robot_bringup/package.xml
+[9.435s] Invoked command in '/home/luigi/ros2_ws/build/my_robot_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_robot_bringup

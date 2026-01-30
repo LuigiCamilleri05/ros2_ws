@@ -1,0 +1,54 @@
+[0.237s] Invoking command in '/home/luigi/ros2_ws/build/my_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/luigi/ros2_ws/src/my_cpp_pkg -DCMAKE_INSTALL_PREFIX=/home/luigi/ros2_ws/install/my_cpp_pkg
+[1.736s] -- The C compiler identification is GNU 13.3.0
+[3.097s] -- The CXX compiler identification is GNU 13.3.0
+[3.294s] -- Detecting C compiler ABI info
+[4.007s] -- Detecting C compiler ABI info - done
+[4.116s] -- Check for working C compiler: /usr/bin/cc - skipped
+[4.119s] -- Detecting C compile features
+[4.133s] -- Detecting C compile features - done
+[4.266s] -- Detecting CXX compiler ABI info
+[5.302s] -- Detecting CXX compiler ABI info - done
+[5.346s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[5.348s] -- Detecting CXX compile features
+[5.356s] -- Detecting CXX compile features - done
+[5.557s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[6.648s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[8.009s] -- Found rclcpp: 28.1.12 (/opt/ros/jazzy/share/rclcpp/cmake)
+[8.985s] -- Found rosidl_generator_c: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[9.199s] -- Found rosidl_generator_cpp: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[9.444s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[9.754s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[10.831s] -- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[10.886s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[11.892s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[12.007s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[12.124s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[13.185s] -- Configuring done (12.5s)
+[13.244s] -- Generating done (0.0s)
+[13.257s] -- Build files have been written to: /home/luigi/ros2_ws/build/my_cpp_pkg
+[13.300s] Invoked command in '/home/luigi/ros2_ws/build/my_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/luigi/ros2_ws/src/my_cpp_pkg -DCMAKE_INSTALL_PREFIX=/home/luigi/ros2_ws/install/my_cpp_pkg
+[13.307s] Invoking command in '/home/luigi/ros2_ws/build/my_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_cpp_pkg -- -j5 -l5
+[13.606s] [ 50%] [32mBuilding CXX object CMakeFiles/cpp_node.dir/src/my_first_node.cpp.o[0m
+[26.649s] [100%] [32m[1mLinking CXX executable cpp_node[0m
+[27.395s] [100%] Built target cpp_node
+[27.461s] Invoked command in '/home/luigi/ros2_ws/build/my_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_cpp_pkg -- -j5 -l5
+[27.465s] Invoking command in '/home/luigi/ros2_ws/build/my_cpp_pkg': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_cpp_pkg
+[27.506s] -- Install configuration: ""
+[27.506s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/lib/my_cpp_pkg/cpp_node
+[27.510s] -- Set non-toolchain portion of runtime path of "/home/luigi/ros2_ws/install/my_cpp_pkg/lib/my_cpp_pkg/cpp_node" to ""
+[27.513s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/ament_index/resource_index/package_run_dependencies/my_cpp_pkg
+[27.515s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/ament_index/resource_index/parent_prefix_path/my_cpp_pkg
+[27.523s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/ament_prefix_path.sh
+[27.524s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/ament_prefix_path.dsv
+[27.527s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/path.sh
+[27.530s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/environment/path.dsv
+[27.530s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.bash
+[27.530s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.sh
+[27.531s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.zsh
+[27.531s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/local_setup.dsv
+[27.531s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/package.dsv
+[27.535s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/ament_index/resource_index/packages/my_cpp_pkg
+[27.535s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/cmake/my_cpp_pkgConfig.cmake
+[27.537s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/cmake/my_cpp_pkgConfig-version.cmake
+[27.537s] -- Installing: /home/luigi/ros2_ws/install/my_cpp_pkg/share/my_cpp_pkg/package.xml
+[27.553s] Invoked command in '/home/luigi/ros2_ws/build/my_cpp_pkg' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_cpp_pkg

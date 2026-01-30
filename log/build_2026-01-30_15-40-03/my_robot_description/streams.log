@@ -1,0 +1,60 @@
+[2.674s] Invoking command in '/home/luigi/ros2_ws/build/my_robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/luigi/ros2_ws/src/my_robot_description -DCMAKE_INSTALL_PREFIX=/home/luigi/ros2_ws/install/my_robot_description
+[3.056s] -- The C compiler identification is GNU 13.3.0
+[3.468s] -- The CXX compiler identification is GNU 13.3.0
+[3.593s] -- Detecting C compiler ABI info
+[4.368s] -- Detecting C compiler ABI info - done
+[4.419s] -- Check for working C compiler: /usr/bin/cc - skipped
+[4.420s] -- Detecting C compile features
+[4.422s] -- Detecting C compile features - done
+[4.493s] -- Detecting CXX compiler ABI info
+[5.433s] -- Detecting CXX compiler ABI info - done
+[5.509s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[5.510s] -- Detecting CXX compile features
+[5.514s] -- Detecting CXX compile features - done
+[5.540s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[6.826s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[7.784s] -- Found ament_lint_auto: 0.17.3 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[8.724s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[8.728s] -- Configured cppcheck include dirs: 
+[8.728s] -- Configured cppcheck exclude dirs and/or files: 
+[8.740s] -- Added test 'flake8' to check Python code syntax and style conventions
+[8.740s] -- Configured 'flake8' exclude dirs and/or files: 
+[8.759s] -- Added test 'lint_cmake' to check CMake code style
+[8.779s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[8.860s] -- Added test 'uncrustify' to check C / C++ code style
+[8.880s] -- Configured uncrustify additional arguments: 
+[8.890s] -- Added test 'xmllint' to check XML markup files
+[8.910s] -- Configuring done (6.1s)
+[8.919s] -- Generating done (0.0s)
+[8.928s] -- Build files have been written to: /home/luigi/ros2_ws/build/my_robot_description
+[8.957s] Invoked command in '/home/luigi/ros2_ws/build/my_robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/luigi/ros2_ws/src/my_robot_description -DCMAKE_INSTALL_PREFIX=/home/luigi/ros2_ws/install/my_robot_description
+[8.958s] Invoking command in '/home/luigi/ros2_ws/build/my_robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_robot_description -- -j5 -l5
+[9.326s] Invoked command in '/home/luigi/ros2_ws/build/my_robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/luigi/ros2_ws/build/my_robot_description -- -j5 -l5
+[9.327s] Invoking command in '/home/luigi/ros2_ws/build/my_robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_robot_description
+[9.401s] -- Install configuration: ""
+[9.401s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/urdf
+[9.407s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/lidar.xacro
+[9.408s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/my_robot.urdf.xacro
+[9.409s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/common_properties.xacro
+[9.417s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/mobile_base_gazebo.xacro
+[9.421s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/camera.xacro
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/mobile_base.xacro
+[9.423s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/rviz
+[9.424s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/rviz/nav2_config.rviz
+[9.426s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/rviz/urdf_config.rviz
+[9.432s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/ament_index/resource_index/package_run_dependencies/my_robot_description
+[9.436s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/ament_index/resource_index/parent_prefix_path/my_robot_description
+[9.439s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/environment/ament_prefix_path.sh
+[9.440s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/environment/ament_prefix_path.dsv
+[9.441s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/environment/path.sh
+[9.450s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/environment/path.dsv
+[9.462s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/local_setup.bash
+[9.463s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/local_setup.sh
+[9.467s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/local_setup.zsh
+[9.471s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/local_setup.dsv
+[9.475s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/package.dsv
+[9.506s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/ament_index/resource_index/packages/my_robot_description
+[9.514s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/cmake/my_robot_descriptionConfig.cmake
+[9.519s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/cmake/my_robot_descriptionConfig-version.cmake
+[9.523s] -- Installing: /home/luigi/ros2_ws/install/my_robot_description/share/my_robot_description/package.xml
+[9.702s] Invoked command in '/home/luigi/ros2_ws/build/my_robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/luigi/ros2_ws/install/my_robot_control:/home/luigi/ros2_ws/install/my_py_pkg:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/luigi/ros2_ws/build/my_robot_description
