@@ -26,6 +26,7 @@ endif()
 # Install Python scripts as executables
 install(PROGRAMS
   scripts/odom_to_tf.py
+  scripts/navigation_fsm.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

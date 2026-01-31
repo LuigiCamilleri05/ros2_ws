@@ -51,4 +51,12 @@
         <param name="use_sim_time" value="$(var use_sim_time)" />
     </node>
 
+    <!-- Navigation FSM - manages states and recovery behaviors -->
+    <node pkg="my_robot_bringup" exec="navigation_fsm.py" name="navigation_fsm">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
+        <param name="recovery_timeout" value="10.0" />
+        <param name="max_replan_attempts" value="3" />
+        <param name="stuck_threshold" value="5.0" />
+    </node>
+
 </launch>
