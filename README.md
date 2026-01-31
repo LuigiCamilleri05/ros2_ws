@@ -147,3 +147,28 @@ ros2_ws/
 ```
 
 ---
+
+## Metrics Collection
+
+Collect navigation performance metrics for analysis:
+
+### Run Metrics Collector
+```bash
+# In a separate terminal while navigation is running:
+source ~/ros2_ws/install/setup.bash
+ros2 run my_robot_bringup metrics_collector.py
+```
+
+### Collected Metrics
+| Metric | Description |
+|--------|-------------|
+| Duration | Time from goal sent to completion |
+| Planned Path Length | Length of planned path (meters) |
+| Actual Distance | Distance robot actually traveled |
+| Replan Count | Number of path replanning events |
+| Recovery Count | Number of recovery behaviors triggered |
+
+Results saved to: `~/ros2_ws/navigation_metrics_YYYYMMDD_HHMMSS.csv`
+
+---
+
