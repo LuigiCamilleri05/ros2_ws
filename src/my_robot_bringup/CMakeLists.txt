@@ -23,6 +23,12 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+# Install Python scripts as executables
+install(PROGRAMS
+  scripts/odom_to_tf.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 install(DIRECTORY launch config worlds maps
   DESTINATION share/${PROJECT_NAME}
 )

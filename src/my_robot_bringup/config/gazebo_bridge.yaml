@@ -25,6 +25,7 @@
   gz_type_name: "gz.msgs.Twist"
   direction: ROS_TO_GZ
 
+# Odometry (TF is handled by odom_to_tf node)
 - ros_topic_name: "/odom"
   gz_topic_name: "/model/my_robot/odometry"
   ros_type_name: "nav_msgs/msg/Odometry"
@@ -44,11 +45,13 @@
   direction: GZ_TO_ROS
 
 # LIDAR - Only GZ_TO_ROS (sensor output)
+# Using reliable QoS so Nav2/AMCL can receive the data
 - ros_topic_name: "/scan"
   gz_topic_name: "/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
   direction: GZ_TO_ROS
+  publisher_queue_size: 10
 
 # Alternative cmd_vel topic for navigation
 - ros_topic_name: "/cmd_vel_nav"
