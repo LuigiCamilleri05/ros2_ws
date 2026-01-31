@@ -14,11 +14,12 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 from enum import Enum
-from std_msgs.msg import String
-from geometry_msgs.msg import PoseStamped, Twist
+from std_msgs.msg import String, ColorRGBA
+from geometry_msgs.msg import PoseStamped, Twist, Point
 from nav_msgs.msg import Odometry
 from nav2_msgs.action import NavigateToPose
 from action_msgs.msg import GoalStatus
+from visualization_msgs.msg import Marker
 
 
 class NavState(Enum):
@@ -63,6 +64,8 @@ class NavigationFSM(Node):
         # Publishers
         self.state_pub = self.create_publisher(String, '/navigation_state', 10)
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.goal_marker_pub = self.create_publisher(Marker, '/goal_marker', 10)
+        self.state_marker_pub = self.create_publisher(Marker, '/nav_state_marker', 10)
         
         # Subscribers
         odom_qos = QoSProfile(depth=10)
@@ -111,6 +114,82 @@ class NavigationFSM(Node):
         msg = String()
         msg.data = self.current_state.value
         self.state_pub.publish(msg)
+        
+        # Publish state as text marker in RViz
+        self.publish_state_marker()
+        
+        # Publish goal marker if we have a goal
+        if self.current_goal:
+            self.publish_goal_marker()
+    
+    def publish_goal_marker(self):
+        """Publish a visual marker at the goal position."""
+        marker = Marker()
+        marker.header.frame_id = 'map'
+        marker.header.stamp = self.get_clock().now().to_msg()
+        marker.ns = 'goal'
+        marker.id = 0
+        marker.type = Marker.CYLINDER
+        marker.action = Marker.ADD
+        
+        # Position at goal
+        marker.pose = self.current_goal.pose
+        marker.pose.position.z = 0.5  # Raise it above ground
+        
+        # Size
+        marker.scale.x = 0.3
+        marker.scale.y = 0.3
+        marker.scale.z = 1.0
+        
+        # Color based on state
+        if self.current_state == NavState.IDLE:
+            marker.color = ColorRGBA(r=0.0, g=1.0, b=0.0, a=0.8)  # Green = reached
+        elif self.current_state == NavState.NAVIGATING:
+            marker.color = ColorRGBA(r=0.0, g=0.5, b=1.0, a=0.8)  # Blue = navigating
+        elif self.current_state == NavState.REPLANNING:
+            marker.color = ColorRGBA(r=1.0, g=0.5, b=0.0, a=0.8)  # Orange = replanning
+        elif self.current_state == NavState.RECOVERING:
+            marker.color = ColorRGBA(r=1.0, g=0.0, b=0.0, a=0.8)  # Red = recovering
+        else:
+            marker.color = ColorRGBA(r=1.0, g=1.0, b=0.0, a=0.8)  # Yellow
+        
+        marker.lifetime.sec = 0  # Persistent
+        self.goal_marker_pub.publish(marker)
+    
+    def publish_state_marker(self):
+        """Publish a text marker showing current state."""
+        marker = Marker()
+        marker.header.frame_id = 'base_link'
+        marker.header.stamp = self.get_clock().now().to_msg()
+        marker.ns = 'nav_state'
+        marker.id = 0
+        marker.type = Marker.TEXT_VIEW_FACING
+        marker.action = Marker.ADD
+        
+        # Position above robot
+        marker.pose.position.x = 0.0
+        marker.pose.position.y = 0.0
+        marker.pose.position.z = 1.5
+        marker.pose.orientation.w = 1.0
+        
+        # Text
+        marker.text = f"State: {self.current_state.value}"
+        marker.scale.z = 0.3  # Text height
+        
+        # Color based on state
+        if self.current_state == NavState.IDLE:
+            marker.color = ColorRGBA(r=0.5, g=0.5, b=0.5, a=1.0)  # Gray
+        elif self.current_state == NavState.NAVIGATING:
+            marker.color = ColorRGBA(r=0.0, g=1.0, b=0.0, a=1.0)  # Green
+        elif self.current_state == NavState.REPLANNING:
+            marker.color = ColorRGBA(r=1.0, g=0.5, b=0.0, a=1.0)  # Orange
+        elif self.current_state == NavState.RECOVERING:
+            marker.color = ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0)  # Red
+        else:
+            marker.color = ColorRGBA(r=1.0, g=1.0, b=0.0, a=1.0)  # Yellow
+        
+        marker.lifetime.sec = 0
+        self.state_marker_pub.publish(marker)
 
     def odom_callback(self, msg: Odometry):
         """Track robot position for stuck detection."""

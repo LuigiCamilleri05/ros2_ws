@@ -46,13 +46,15 @@ Visualization Manager:
       Topic:
         Value: /global_costmap/costmap
       Color Scheme: costmap
+      Alpha: 0.5
       
     - Class: rviz_default_plugins/Map
       Name: Local Costmap
-      Enabled: false
+      Enabled: true
       Topic:
         Value: /local_costmap/costmap
       Color Scheme: costmap
+      Alpha: 0.3
       
     - Class: rviz_default_plugins/Path
       Name: Global Path
@@ -60,6 +62,8 @@ Visualization Manager:
       Topic:
         Value: /plan
       Color: 0; 255; 0
+      Line Style: Billboards
+      Line Width: 0.05
       
     - Class: rviz_default_plugins/Path
       Name: Local Path
@@ -67,6 +71,8 @@ Visualization Manager:
       Topic:
         Value: /local_plan
       Color: 255; 255; 0
+      Line Style: Billboards
+      Line Width: 0.03
         
     - Class: rviz_default_plugins/PoseWithCovariance
       Name: AMCL Pose
@@ -74,6 +80,28 @@ Visualization Manager:
       Topic:
         Value: /amcl_pose
       Color: 0; 255; 255
+      
+    # Goal visualization - shows where you clicked
+    - Class: rviz_default_plugins/Marker
+      Name: Goal Marker
+      Enabled: true
+      Topic:
+        Value: /goal_marker
+      
+    # Navigation state text display
+    - Class: rviz_default_plugins/Marker
+      Name: Nav State
+      Enabled: true
+      Topic:
+        Value: /nav_state_marker
+      
+    # Footprint visualization
+    - Class: rviz_default_plugins/Polygon
+      Name: Robot Footprint
+      Enabled: true
+      Topic:
+        Value: /local_costmap/published_footprint
+      Color: 255; 0; 255
       
   Global Options:
     Fixed Frame: map
@@ -90,8 +118,8 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 20
-      Pitch: 0.8
+      Distance: 15
+      Pitch: 0.9
       Yaw: 0.5
 Window Geometry:
   Width: 1400

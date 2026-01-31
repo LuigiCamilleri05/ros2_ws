@@ -33,11 +33,20 @@
         <param name="config_file" value="$(var gazebo_bridge_config)" />
     </node>
 
-    <!-- SLAM Toolbox -->
-    <node pkg="slam_toolbox" exec="async_slam_toolbox_node" name="slam_toolbox" output="screen">
+    <!-- Odom to TF broadcaster (required for SLAM) -->
+    <node pkg="my_robot_bringup" exec="odom_to_tf.py" name="odom_to_tf">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
+    </node>
+
+    <!-- SLAM Toolbox - using sync mode -->
+    <node pkg="slam_toolbox" exec="sync_slam_toolbox_node" name="slam_toolbox" output="screen">
         <param from="$(var slam_config)" />
         <param name="use_sim_time" value="$(var use_sim_time)" />
-        <param name="use_lifecycle_manager" value="false" />
+    </node>
+
+    <!-- Auto-activate SLAM lifecycle node -->
+    <node pkg="my_robot_bringup" exec="slam_activator.py" name="slam_activator" output="screen">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
     </node>
 
     <!-- RViz for visualization -->

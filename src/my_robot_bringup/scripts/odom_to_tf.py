@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Broadcasts odom -> base_footprint TF from /odom topic.
+Broadcasts odom -> base_link TF from /odom topic.
 This is needed when the Gazebo bridge doesn't auto-publish this TF.
 """
 
@@ -29,14 +29,14 @@ class OdomToTF(Node):
             qos
         )
         
-        self.get_logger().info('OdomToTF node started - broadcasting odom -> base_footprint')
+        self.get_logger().info('OdomToTF node started - broadcasting odom -> base_link')
 
     def odom_callback(self, msg: Odometry):
         t = TransformStamped()
         
         t.header.stamp = msg.header.stamp
         t.header.frame_id = 'odom'
-        t.child_frame_id = 'base_footprint'
+        t.child_frame_id = 'base_link'
         
         t.transform.translation.x = msg.pose.pose.position.x
         t.transform.translation.y = msg.pose.pose.position.y

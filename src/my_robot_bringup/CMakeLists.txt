@@ -27,6 +27,7 @@ endif()
 install(PROGRAMS
   scripts/odom_to_tf.py
   scripts/navigation_fsm.py
+  scripts/slam_activator.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
