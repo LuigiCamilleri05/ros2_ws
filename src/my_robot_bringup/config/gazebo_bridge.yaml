@@ -44,9 +44,9 @@
   gz_type_name: "gz.msgs.Image"
   direction: GZ_TO_ROS
 
-# LIDAR - Only GZ_TO_ROS (sensor output)
-# Using reliable QoS so Nav2/AMCL can receive the data
-- ros_topic_name: "/scan"
+# LIDAR - Publish to /scan_raw, then scan_timestamp_fixer republishes to /scan
+# This fixes the timestamp mismatch between Gazebo sensors and TF
+- ros_topic_name: "/scan_raw"
   gz_topic_name: "/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"

@@ -33,8 +33,18 @@
         <param name="config_file" value="$(var gazebo_bridge_config)" />
     </node>
 
+    <!-- Scan Timestamp Fixer - republishes /scan_raw to /scan with corrected timestamps -->
+    <node pkg="my_robot_bringup" exec="scan_timestamp_fixer.py" name="scan_timestamp_fixer">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
+    </node>
+
     <!-- Odom to TF broadcaster (publishes odom -> base_footprint TF from /odom topic) -->
     <node pkg="my_robot_bringup" exec="odom_to_tf.py" name="odom_to_tf">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
+    </node>
+
+    <!-- TF Republisher - fixes static transform timestamp issues in slow simulations -->
+    <node pkg="my_robot_bringup" exec="tf_republisher.py" name="tf_republisher">
         <param name="use_sim_time" value="$(var use_sim_time)" />
     </node>
 

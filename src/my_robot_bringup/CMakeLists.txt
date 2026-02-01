@@ -29,6 +29,8 @@ install(PROGRAMS
   scripts/navigation_fsm.py
   scripts/slam_activator.py
   scripts/metrics_collector.py
+  scripts/tf_republisher.py
+  scripts/scan_timestamp_fixer.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
