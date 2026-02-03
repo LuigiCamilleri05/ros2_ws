@@ -32,6 +32,7 @@ install(PROGRAMS
   scripts/tf_republisher.py
   scripts/scan_timestamp_fixer.py
   scripts/camera_pointcloud_processor.py
+  scripts/dynamic_obstacles.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -74,4 +74,9 @@
         <param name="stuck_threshold" value="5.0" />
     </node>
 
+    <!-- Dynamic Obstacles Controller - moves obstacles in Gazebo -->
+    <node pkg="my_robot_bringup" exec="dynamic_obstacles.py" name="dynamic_obstacle_controller">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
+    </node>
+
 </launch>
