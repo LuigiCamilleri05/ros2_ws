@@ -31,6 +31,7 @@ install(PROGRAMS
   scripts/metrics_collector.py
   scripts/tf_republisher.py
   scripts/scan_timestamp_fixer.py
+  scripts/camera_pointcloud_processor.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

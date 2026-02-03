@@ -43,6 +43,11 @@
         <param name="use_sim_time" value="$(var use_sim_time)" />
     </node>
 
+    <!-- Camera Point Cloud Processor - fixes timestamps for Nav2 costmaps -->
+    <node pkg="my_robot_bringup" exec="camera_pointcloud_processor.py" name="camera_pointcloud_processor">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
+    </node>
+
     <!-- TF Republisher - fixes static transform timestamp issues in slow simulations -->
     <node pkg="my_robot_bringup" exec="tf_republisher.py" name="tf_republisher">
         <param name="use_sim_time" value="$(var use_sim_time)" />
