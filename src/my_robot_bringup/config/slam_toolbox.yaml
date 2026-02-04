@@ -1,6 +1,4 @@
 # SLAM Toolbox Configuration for my_robot
-# Optimized for Gazebo simulation with LIDAR
-
 slam_toolbox:
   ros__parameters:
     # Plugin params

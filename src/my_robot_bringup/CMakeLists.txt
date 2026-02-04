@@ -5,21 +5,15 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_cmake_pytest REQUIRED)
 
-  # Add Python unit tests (skip strict ament linting)
   ament_add_pytest_test(test_metrics_collector test/test_metrics_collector.py)
   ament_add_pytest_test(test_navigation_fsm test/test_navigation_fsm.py)
 endif()
 
-# Install Python scripts as executable
 install(PROGRAMS
   scripts/odom_to_tf.py
   scripts/navigation_fsm.py

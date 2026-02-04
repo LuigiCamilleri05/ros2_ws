@@ -1,6 +1,3 @@
-# Fixed Gazebo Bridge Configuration
-# Key fix: Removed duplicate /scan entry that was creating bidirectional bridge
-
 - ros_topic_name: "/clock"
   gz_topic_name: "/clock"
   ros_type_name: "rosgraph_msgs/msg/Clock"

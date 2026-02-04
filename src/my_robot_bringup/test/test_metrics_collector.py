@@ -11,7 +11,7 @@ import os
 # Add scripts directory to path so we can import metrics_collector
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'scripts'))
 
-from scripts.metrics_collector import (
+from metrics_collector import (
     calculate_distance,
     calculate_path_length,
     calculate_path_efficiency,

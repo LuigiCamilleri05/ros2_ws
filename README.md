@@ -163,7 +163,6 @@ Results saved to:
 
 ## Running Tests
 
-### Unit Tests
 ```bash
 cd ~/ros2_ws
 colcon build --packages-select my_robot_bringup

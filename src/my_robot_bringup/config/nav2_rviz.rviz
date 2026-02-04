@@ -1,9 +1,11 @@
+# UI planels and displays for Nav2 visualization in RViz2
 Panels:
   - Class: rviz_common/Displays
     Name: Displays
   - Class: rviz_common/Views
     Name: Views
 Visualization Manager:
+  # Displays are the individual visual elements you add to RViz (like grids, robot models, sensor data, etc.)
   Displays:
     - Class: rviz_default_plugins/Grid
       Name: Grid
@@ -20,18 +22,18 @@ Visualization Manager:
       Name: TF
       Enabled: true
       Show Names: false
-      Frame Timeout: 15
+      Frame Timeout: 15 # seconds before a TF frame is considered stale
       
     - Class: rviz_default_plugins/LaserScan
       Name: LaserScan
       Enabled: true
       Topic:
         Value: /scan
-        Reliability Policy: Best Effort
-      Size (m): 0.05
+        Reliability Policy: Best Effort # Match sensor update rate, no need for reliability
+      Size (m): 0.05 # Point size
       Style: Points
-      Color Transformer: FlatColor
-      Color: 255; 0; 0
+      Color Transformer: FlatColor # All points same color
+      Color: 255; 0; 0 # Red color for laser scan points
       
     - Class: rviz_default_plugins/Map
       Name: Map
@@ -39,31 +41,31 @@ Visualization Manager:
       Topic:
         Value: /map
         Depth: 1
-        Durability Policy: Transient Local
-        Reliability Policy: Reliable
-      Color Scheme: map
-      Alpha: 1.0
-      Draw Behind: true
+        Durability Policy: Transient Local # Get the latest map when subscribing
+        Reliability Policy: Reliable # Ensure we get the map data
+      Color Scheme: map # Use the map's own color scheme
+      Alpha: 1.0 # Fully opaque
+      Draw Behind: true # Draw the map behind other elements
       
     - Class: rviz_default_plugins/Map
       Name: Global Costmap
       Enabled: true
       Topic:
         Value: /global_costmap/costmap
-        Durability Policy: Transient Local
-        Reliability Policy: Reliable
-      Color Scheme: costmap
-      Alpha: 0.5
+        Durability Policy: Transient Local # Get the latest costmap when subscribing
+        Reliability Policy: Reliable # Ensure we get the costmap data
+      Color Scheme: costmap # Use Nav2's costmap color scheme
+      Alpha: 0.5 # Semi-transparent so you can see the map underneath
       
     - Class: rviz_default_plugins/Map
       Name: Local Costmap
       Enabled: true
       Topic:
         Value: /local_costmap/costmap
-        Durability Policy: Transient Local
-        Reliability Policy: Reliable
-      Color Scheme: costmap
-      Alpha: 0.3
+        Durability Policy: Transient Local # Get the latest costmap when subscribing
+        Reliability Policy: Reliable # Ensure we get the costmap data
+      Color Scheme: costmap # Use Nav2's costmap color scheme
+      Alpha: 0.3 # Semi-transparent for better visibility of underlying map
       
     - Class: rviz_default_plugins/Path
       Name: Global Path
@@ -71,8 +73,8 @@ Visualization Manager:
       Topic:
         Value: /plan
       Color: 0; 255; 0
-      Line Style: Billboards
-      Line Width: 0.05
+      Line Style: Billboards # Use billboards for better visibility
+      Line Width: 0.05 # Line thickness
       
     - Class: rviz_default_plugins/Path
       Name: Local Path
@@ -90,14 +92,12 @@ Visualization Manager:
         Value: /amcl_pose
       Color: 0; 255; 255
       
-    # Goal visualization - shows where you clicked
     - Class: rviz_default_plugins/Marker
       Name: Goal Marker
       Enabled: true
       Topic:
         Value: /goal_marker
       
-    # Navigation state text display
     - Class: rviz_default_plugins/Marker
       Name: Nav State
       Enabled: true
