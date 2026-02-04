@@ -5,6 +5,7 @@ States: IDLE, NAVIGATING, AVOIDING, REPLANNING, RECOVERING
 
 Subscribes to Nav2 action feedback and publishes current state for monitoring.
 Handles recovery behaviors when navigation fails.
+Includes collision detection with automatic reverse behavior.
 """
 
 import rclpy
@@ -17,9 +18,11 @@ from enum import Enum
 from std_msgs.msg import String, ColorRGBA
 from geometry_msgs.msg import PoseStamped, Twist, Point
 from nav_msgs.msg import Odometry
+from sensor_msgs.msg import LaserScan
 from nav2_msgs.action import NavigateToPose
 from action_msgs.msg import GoalStatus
 from visualization_msgs.msg import Marker
+import math
 
 
 class NavState(Enum):
@@ -29,12 +32,14 @@ class NavState(Enum):
     AVOIDING = "AVOIDING"
     REPLANNING = "REPLANNING"
     RECOVERING = "RECOVERING"
+    REVERSING = "REVERSING"
 
 
 class NavigationFSM(Node):
     """
     Finite State Machine for robot navigation.
     Monitors Nav2 status and manages recovery behaviors.
+    Includes collision detection and automatic reverse.
     """
 
     def __init__(self):
@@ -44,10 +49,16 @@ class NavigationFSM(Node):
         self.declare_parameter('recovery_timeout', 10.0)
         self.declare_parameter('max_replan_attempts', 3)
         self.declare_parameter('stuck_threshold', 5.0)
+        self.declare_parameter('collision_distance', 0.25)  # Distance to trigger reverse
+        self.declare_parameter('reverse_distance', 0.3)     # How far to reverse
+        self.declare_parameter('reverse_speed', 0.2)        # Reverse speed m/s
         
         self.recovery_timeout = self.get_parameter('recovery_timeout').value
         self.max_replan_attempts = self.get_parameter('max_replan_attempts').value
         self.stuck_threshold = self.get_parameter('stuck_threshold').value
+        self.collision_distance = self.get_parameter('collision_distance').value
+        self.reverse_distance = self.get_parameter('reverse_distance').value
+        self.reverse_speed = self.get_parameter('reverse_speed').value
         
         # State management
         self.current_state = NavState.IDLE
@@ -57,6 +68,11 @@ class NavigationFSM(Node):
         self.stuck_start_time = None
         self.current_goal = None
         self.goal_handle = None
+        
+        # Collision detection
+        self.min_front_distance = float('inf')
+        self.is_reversing = False
+        self.reverse_start_position = None
         
         # Callback group for concurrent callbacks
         self.callback_group = ReentrantCallbackGroup()
@@ -72,6 +88,14 @@ class NavigationFSM(Node):
         odom_qos.reliability = ReliabilityPolicy.RELIABLE
         self.odom_sub = self.create_subscription(
             Odometry, '/odom', self.odom_callback, odom_qos,
+            callback_group=self.callback_group
+        )
+        
+        # Scan subscriber for collision detection
+        scan_qos = QoSProfile(depth=10)
+        scan_qos.reliability = ReliabilityPolicy.BEST_EFFORT
+        self.scan_sub = self.create_subscription(
+            LaserScan, '/scan', self.scan_callback, scan_qos,
             callback_group=self.callback_group
         )
         
@@ -185,6 +209,8 @@ class NavigationFSM(Node):
             marker.color = ColorRGBA(r=1.0, g=0.5, b=0.0, a=1.0)  # Orange
         elif self.current_state == NavState.RECOVERING:
             marker.color = ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0)  # Red
+        elif self.current_state == NavState.REVERSING:
+            marker.color = ColorRGBA(r=1.0, g=0.0, b=1.0, a=1.0)  # Magenta
         else:
             marker.color = ColorRGBA(r=1.0, g=1.0, b=0.0, a=1.0)  # Yellow
         
@@ -192,8 +218,107 @@ class NavigationFSM(Node):
         self.state_marker_pub.publish(marker)
 
     def odom_callback(self, msg: Odometry):
-        """Track robot position for stuck detection."""
+        """Track robot position for stuck detection and reverse distance."""
         self.last_position = msg.pose.pose.position
+        
+        # Check if we've reversed far enough
+        if self.is_reversing and self.reverse_start_position:
+            dx = self.last_position.x - self.reverse_start_position.x
+            dy = self.last_position.y - self.reverse_start_position.y
+            distance_reversed = math.sqrt(dx*dx + dy*dy)
+            
+            if distance_reversed >= self.reverse_distance:
+                self.stop_reversing()
+
+    def scan_callback(self, msg: LaserScan):
+        """Process LIDAR scan for collision detection."""
+        # Check front arc for obstacles (roughly -30 to +30 degrees)
+        # Scan goes from -180 to 180 degrees
+        num_readings = len(msg.ranges)
+        center_index = num_readings // 2  # Front of robot
+        arc_size = num_readings // 6  # ~60 degree arc
+        
+        start_idx = max(0, center_index - arc_size)
+        end_idx = min(num_readings, center_index + arc_size)
+        
+        # Find minimum distance in front arc
+        front_ranges = [r for r in msg.ranges[start_idx:end_idx] 
+                       if r > msg.range_min and r < msg.range_max]
+        
+        if front_ranges:
+            self.min_front_distance = min(front_ranges)
+        else:
+            self.min_front_distance = float('inf')
+        
+        # Check for collision condition
+        if (self.current_state == NavState.NAVIGATING and 
+            not self.is_reversing and
+            self.min_front_distance < self.collision_distance):
+            self.get_logger().warn(
+                f'Collision imminent! Distance: {self.min_front_distance:.2f}m - REVERSING'
+            )
+            self.start_reversing()
+
+    def start_reversing(self):
+        """Start reverse maneuver to escape collision."""
+        if self.is_reversing:
+            return
+            
+        self.is_reversing = True
+        self.reverse_start_position = self.last_position
+        self.transition_to(NavState.REVERSING)
+        
+        # Cancel current navigation goal
+        if self.goal_handle:
+            self.get_logger().info('Canceling navigation for reverse maneuver')
+            self.goal_handle.cancel_goal_async()
+        
+        # Start reverse timer
+        self.reverse_timer = self.create_timer(
+            0.1, self.reverse_tick, callback_group=self.callback_group
+        )
+        
+    def reverse_tick(self):
+        """Execute reverse movement."""
+        if not self.is_reversing:
+            if hasattr(self, 'reverse_timer'):
+                self.reverse_timer.cancel()
+            return
+            
+        # Publish reverse velocity
+        twist = Twist()
+        twist.linear.x = -self.reverse_speed
+        twist.angular.z = 0.0
+        self.cmd_vel_pub.publish(twist)
+        
+    def stop_reversing(self):
+        """Stop reverse maneuver and resume navigation."""
+        self.is_reversing = False
+        self.reverse_start_position = None
+        
+        # Cancel reverse timer
+        if hasattr(self, 'reverse_timer'):
+            self.reverse_timer.cancel()
+        
+        # Stop the robot
+        twist = Twist()
+        self.cmd_vel_pub.publish(twist)
+        
+        self.get_logger().info(
+            f'Reverse complete ({self.reverse_distance:.2f}m) - resuming navigation'
+        )
+        
+        # Resume navigation to original goal
+        if self.current_goal:
+            self.transition_to(NavState.REPLANNING)
+            # Small delay before resuming
+            self.create_timer(
+                0.5,
+                lambda: self.send_goal(self.current_goal) if self.current_goal else None,
+                callback_group=self.callback_group
+            )
+        else:
+            self.transition_to(NavState.IDLE)
 
     def goal_callback(self, msg: PoseStamped):
         """Handle new goal from RViz or other sources."""

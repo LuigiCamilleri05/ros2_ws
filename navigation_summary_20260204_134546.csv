@@ -1,0 +1,6 @@
+metric,value
+total_tests,2
+successful_tests,2
+success_rate_pct,100.0
+avg_time_to_goal_sec,15.49
+avg_path_efficiency_pct,1279.2
