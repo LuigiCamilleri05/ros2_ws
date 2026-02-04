@@ -74,4 +74,9 @@
         <param name="use_sim_time" value="$(var use_sim_time)" />
     </node>
 
+    <!-- Metrics Collector - logs navigation performance to CSV -->
+    <node pkg="my_robot_bringup" exec="metrics_collector.py" name="metrics_collector">
+        <param name="use_sim_time" value="$(var use_sim_time)" />
+    </node>
+
 </launch>

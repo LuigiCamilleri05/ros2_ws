@@ -2,6 +2,13 @@
 """
 Navigation Metrics Collector
 Logs navigation performance metrics to CSV for analysis.
+
+Metrics tracked:
+- Success rate of reaching goal without collision
+- Path efficiency (% deviation from optimal path)
+- Average time-to-goal
+- Number of dynamic replans per trial
+- CPU utilization (for efficiency analysis)
 """
 
 import rclpy
@@ -11,11 +18,12 @@ from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Odometry, Path
-from std_msgs.msg import String
+from std_msgs.msg import String, Bool
 import csv
 import os
 from datetime import datetime
 import math
+import psutil
 
 
 class MetricsCollector(Node):
@@ -27,18 +35,31 @@ class MetricsCollector(Node):
         self.test_results = []
         self.test_count = 0
         
+        # Aggregate metrics for success rate and averages
+        self.total_tests = 0
+        self.successful_tests = 0
+        self.total_time_to_goal = 0.0
+        self.total_path_efficiency = 0.0
+        
+        # CPU monitoring
+        self.cpu_samples = []
+        self.cpu_sample_interval = 0.5  # seconds
+        
         # Output file
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         self.csv_file = os.path.expanduser(f'~/ros2_ws/navigation_metrics_{timestamp}.csv')
+        self.summary_file = os.path.expanduser(f'~/ros2_ws/navigation_summary_{timestamp}.csv')
         
-        # Initialize CSV
+        # Initialize CSV with extended metrics
         with open(self.csv_file, 'w', newline='') as f:
             writer = csv.writer(f)
             writer.writerow([
                 'test_id', 'start_time', 'end_time', 'duration_sec',
                 'goal_x', 'goal_y', 'start_x', 'start_y',
-                'result', 'planned_path_length', 'actual_distance_traveled',
-                'replan_count', 'recovery_count'
+                'result', 'collision_occurred',
+                'optimal_path_length', 'planned_path_length', 'actual_distance_traveled',
+                'path_efficiency_pct', 'replan_count', 'recovery_count',
+                'avg_cpu_pct', 'max_cpu_pct'
             ])
         
         # State tracking
@@ -47,9 +68,11 @@ class MetricsCollector(Node):
         self.distance_traveled = 0.0
         self.last_pose = None
         self.planned_path_length = 0.0
+        self.optimal_path_length = 0.0  # Straight-line distance to goal
         self.replan_count = 0
         self.recovery_count = 0
         self.is_navigating = False
+        self.collision_occurred = False
         
         # Subscribers
         self.odom_sub = self.create_subscription(
@@ -60,6 +83,9 @@ class MetricsCollector(Node):
             Path, '/plan', self.path_callback, 10)
         self.nav_state_sub = self.create_subscription(
             String, '/navigation_state', self.nav_state_callback, 10)
+        
+        # CPU sampling timer
+        self.cpu_timer = self.create_timer(self.cpu_sample_interval, self.sample_cpu)
         
         self.get_logger().info(f'Metrics Collector started!')
         self.get_logger().info(f'Saving to: {self.csv_file}')
@@ -78,16 +104,33 @@ class MetricsCollector(Node):
         
         self.last_pose = (x, y)
     
+    def sample_cpu(self):
+        """Sample CPU usage periodically during navigation."""
+        if self.is_navigating:
+            cpu_percent = psutil.cpu_percent(interval=None)
+            self.cpu_samples.append(cpu_percent)
+    
     def goal_callback(self, msg):
         """New goal received - start tracking."""
         self.test_count += 1
+        
+        goal_x = msg.pose.position.x
+        goal_y = msg.pose.position.y
+        start_x = self.current_pose[0] if self.current_pose else 0
+        start_y = self.current_pose[1] if self.current_pose else 0
+        
+        # Calculate optimal (straight-line) path length
+        self.optimal_path_length = math.sqrt(
+            (goal_x - start_x)**2 + (goal_y - start_y)**2
+        )
+        
         self.current_test = {
             'test_id': self.test_count,
             'start_time': datetime.now().isoformat(),
-            'goal_x': msg.pose.position.x,
-            'goal_y': msg.pose.position.y,
-            'start_x': self.current_pose[0] if self.current_pose else 0,
-            'start_y': self.current_pose[1] if self.current_pose else 0,
+            'goal_x': goal_x,
+            'goal_y': goal_y,
+            'start_x': start_x,
+            'start_y': start_y,
         }
         
         self.start_pose = self.current_pose
@@ -96,9 +139,12 @@ class MetricsCollector(Node):
         self.replan_count = 0
         self.recovery_count = 0
         self.is_navigating = True
+        self.collision_occurred = False
+        self.cpu_samples = []
         self.nav_start_time = self.get_clock().now()
         
-        self.get_logger().info(f'Test #{self.test_count} started: Goal ({msg.pose.position.x:.2f}, {msg.pose.position.y:.2f})')
+        self.get_logger().info(f'Test #{self.test_count} started: Goal ({goal_x:.2f}, {goal_y:.2f})')
+        self.get_logger().info(f'  Optimal path length: {self.optimal_path_length:.2f}m')
     
     def path_callback(self, msg):
         """Track planned path length and replans."""
@@ -125,9 +171,17 @@ class MetricsCollector(Node):
             self.recovery_count += 1
             self.get_logger().info(f'Recovery #{self.recovery_count} triggered')
         
+        elif state == 'COLLISION':
+            self.collision_occurred = True
+            self.get_logger().warn('Collision detected!')
+            self.finish_test('COLLISION')
+        
         elif state == 'IDLE' and self.is_navigating:
             # Navigation finished
             self.finish_test('SUCCESS')
+        
+        elif state == 'FAILED' and self.is_navigating:
+            self.finish_test('FAILED')
         
         elif state == 'REPLANNING' and self.is_navigating:
             self.get_logger().info(f'Replan #{self.replan_count + 1}')
@@ -141,6 +195,24 @@ class MetricsCollector(Node):
         end_time = datetime.now()
         duration = (self.get_clock().now() - self.nav_start_time).nanoseconds / 1e9
         
+        # Calculate path efficiency (optimal / actual * 100)
+        # 100% means perfect efficiency, lower means more deviation
+        if self.distance_traveled > 0:
+            path_efficiency = (self.optimal_path_length / self.distance_traveled) * 100
+        else:
+            path_efficiency = 0.0
+        
+        # CPU metrics
+        avg_cpu = sum(self.cpu_samples) / len(self.cpu_samples) if self.cpu_samples else 0.0
+        max_cpu = max(self.cpu_samples) if self.cpu_samples else 0.0
+        
+        # Update aggregate metrics
+        self.total_tests += 1
+        if result == 'SUCCESS' and not self.collision_occurred:
+            self.successful_tests += 1
+            self.total_time_to_goal += duration
+            self.total_path_efficiency += path_efficiency
+        
         row = [
             self.current_test['test_id'],
             self.current_test['start_time'],
@@ -151,10 +223,15 @@ class MetricsCollector(Node):
             f"{self.current_test['start_x']:.2f}",
             f"{self.current_test['start_y']:.2f}",
             result,
+            self.collision_occurred,
+            f'{self.optimal_path_length:.2f}',
             f'{self.planned_path_length:.2f}',
             f'{self.distance_traveled:.2f}',
+            f'{path_efficiency:.1f}',
             self.replan_count,
-            self.recovery_count
+            self.recovery_count,
+            f'{avg_cpu:.1f}',
+            f'{max_cpu:.1f}'
         ]
         
         with open(self.csv_file, 'a', newline='') as f:
@@ -162,10 +239,36 @@ class MetricsCollector(Node):
             writer.writerow(row)
         
         self.get_logger().info(f'Test #{self.current_test["test_id"]} completed: {result}')
-        self.get_logger().info(f'  Duration: {duration:.1f}s | Path: {self.planned_path_length:.2f}m | Traveled: {self.distance_traveled:.2f}m')
+        self.get_logger().info(f'  Duration: {duration:.1f}s | Path efficiency: {path_efficiency:.1f}%')
+        self.get_logger().info(f'  Optimal: {self.optimal_path_length:.2f}m | Traveled: {self.distance_traveled:.2f}m')
         self.get_logger().info(f'  Replans: {self.replan_count} | Recoveries: {self.recovery_count}')
+        self.get_logger().info(f'  CPU: avg={avg_cpu:.1f}% max={max_cpu:.1f}%')
+        
+        # Log running success rate
+        success_rate = (self.successful_tests / self.total_tests) * 100
+        self.get_logger().info(f'  Running success rate: {success_rate:.1f}% ({self.successful_tests}/{self.total_tests})')
         
         self.current_test = {}
+    
+    def save_summary(self):
+        """Save aggregate summary metrics."""
+        if self.total_tests == 0:
+            return
+            
+        success_rate = (self.successful_tests / self.total_tests) * 100
+        avg_time = self.total_time_to_goal / self.successful_tests if self.successful_tests > 0 else 0
+        avg_efficiency = self.total_path_efficiency / self.successful_tests if self.successful_tests > 0 else 0
+        
+        with open(self.summary_file, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(['metric', 'value'])
+            writer.writerow(['total_tests', self.total_tests])
+            writer.writerow(['successful_tests', self.successful_tests])
+            writer.writerow(['success_rate_pct', f'{success_rate:.1f}'])
+            writer.writerow(['avg_time_to_goal_sec', f'{avg_time:.2f}'])
+            writer.writerow(['avg_path_efficiency_pct', f'{avg_efficiency:.1f}'])
+        
+        self.get_logger().info(f'Summary saved to: {self.summary_file}')
 
 
 def main(args=None):
@@ -175,6 +278,7 @@ def main(args=None):
         rclpy.spin(node)
     except KeyboardInterrupt:
         node.get_logger().info(f'Metrics saved to: {node.csv_file}')
+        node.save_summary()
     finally:
         node.destroy_node()
         rclpy.shutdown()
