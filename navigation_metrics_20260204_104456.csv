@@ -1,3 +1,0 @@
-test_id,start_time,end_time,duration_sec,goal_x,goal_y,start_x,start_y,result,planned_path_length,actual_distance_traveled,replan_count,recovery_count
-1,2026-02-04T10:45:31.687972,2026-02-04T10:47:34.441329,13.70,4.17,-2.05,0.00,-0.00,SUCCESS,0.18,4.64,99,0
-2,2026-02-04T10:47:38.765585,2026-02-04T10:50:27.786805,18.01,-0.53,0.09,4.11,-2.10,SUCCESS,0.15,5.48,145,0

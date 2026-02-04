@@ -1,2 +1,0 @@
-test_id,start_time,end_time,duration_sec,goal_x,goal_y,start_x,start_y,result,collision_occurred,optimal_path_length,planned_path_length,actual_distance_traveled,path_efficiency_pct,replan_count,recovery_count,avg_cpu_pct,max_cpu_pct
-3,2026-02-04T14:19:18.365022,2026-02-04T14:19:31.285029,1.50,3.28,-2.56,0.85,-4.01,SUCCESS,False,2.83,0.00,0.00,353565.5,0,0,95.0,95.4
