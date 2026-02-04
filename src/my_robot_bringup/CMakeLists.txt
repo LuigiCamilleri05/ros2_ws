@@ -23,7 +23,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# Install Python scripts as executables
+# Install Python scripts as executable
 install(PROGRAMS
   scripts/odom_to_tf.py
   scripts/navigation_fsm.py
