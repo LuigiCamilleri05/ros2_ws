@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Navigation FSM Node - Manages robot navigation states
-States: IDLE, NAVIGATING, AVOIDING, REPLANNING, RECOVERING
+States: IDLE, NAVIGATING, REPLANNING, RECOVERING, REVERSING
 
 Subscribes to Nav2 action feedback and publishes current state for monitoring.
 Handles recovery behaviors when navigation fails.
@@ -29,7 +29,6 @@ class NavState(Enum):
     """Navigation FSM States"""
     IDLE = "IDLE"
     NAVIGATING = "NAVIGATING"
-    AVOIDING = "AVOIDING"
     REPLANNING = "REPLANNING"
     RECOVERING = "RECOVERING"
     REVERSING = "REVERSING"
@@ -50,7 +49,7 @@ class NavigationFSM(Node):
         self.declare_parameter('max_replan_attempts', 3)
         self.declare_parameter('stuck_threshold', 5.0)
         self.declare_parameter('collision_distance', 0.25)  # Distance to trigger reverse
-        self.declare_parameter('reverse_distance', 0.3)     # How far to reverse
+        self.declare_parameter('reverse_distance', 1)     # How far to reverse
         self.declare_parameter('reverse_speed', 0.2)        # Reverse speed m/s
         
         self.recovery_timeout = self.get_parameter('recovery_timeout').value
@@ -113,7 +112,6 @@ class NavigationFSM(Node):
         
         # Timers
         self.state_timer = self.create_timer(0.5, self.publish_state)
-        self.stuck_check_timer = self.create_timer(1.0, self.check_if_stuck)
         
         self.get_logger().info('Navigation FSM initialized - State: IDLE')
         self.get_logger().info('Waiting for Nav2 action server...')
@@ -123,6 +121,14 @@ class NavigationFSM(Node):
             self.get_logger().info('Nav2 action server ready!')
         else:
             self.get_logger().warn('Nav2 action server not available after 30s')
+
+    def destroy_node(self):
+        """Clean up timers before destroying node."""
+        if self.reverse_tick_timer is not None:
+            self.reverse_tick_timer.cancel()
+        if self.state_timer is not None:
+            self.state_timer.cancel()
+        super().destroy_node()
 
     def transition_to(self, new_state: NavState):
         """Transition to a new state with logging."""
@@ -366,10 +372,6 @@ class NavigationFSM(Node):
         
         # Check distance remaining
         distance = feedback.distance_remaining
-        
-        # If in AVOIDING state and obstacle cleared, go back to NAVIGATING
-        if self.current_state == NavState.AVOIDING:
-            self.transition_to(NavState.NAVIGATING)
 
     def result_callback(self, future):
         """Handle navigation result."""
@@ -460,19 +462,6 @@ class NavigationFSM(Node):
             self.send_goal(self.current_goal)
         else:
             self.transition_to(NavState.IDLE)
-
-    def check_if_stuck(self):
-        """Check if robot is stuck (no movement for threshold time)."""
-        if self.current_state != NavState.NAVIGATING:
-            self.stuck_start_time = None
-            return
-        
-        if self.last_position is None:
-            return
-        
-        # Simple stuck detection based on position history
-        # In a real implementation, you'd track position change over time
-        # For now, this is a placeholder that triggers recovery if needed
 
 
 def main(args=None):

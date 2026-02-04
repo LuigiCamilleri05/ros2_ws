@@ -12,7 +12,6 @@ class NavState(Enum):
     """Navigation FSM States - mirrored from navigation_fsm.py"""
     IDLE = "IDLE"
     NAVIGATING = "NAVIGATING"
-    AVOIDING = "AVOIDING"
     REPLANNING = "REPLANNING"
     RECOVERING = "RECOVERING"
 
@@ -30,8 +29,7 @@ class TestNavStateMachine(unittest.TestCase):
         """Simulate state transition."""
         valid_transitions = {
             NavState.IDLE: [NavState.NAVIGATING],
-            NavState.NAVIGATING: [NavState.IDLE, NavState.AVOIDING, NavState.REPLANNING, NavState.RECOVERING],
-            NavState.AVOIDING: [NavState.NAVIGATING, NavState.REPLANNING],
+            NavState.NAVIGATING: [NavState.IDLE, NavState.REPLANNING, NavState.RECOVERING],
             NavState.REPLANNING: [NavState.NAVIGATING, NavState.RECOVERING],
             NavState.RECOVERING: [NavState.IDLE, NavState.NAVIGATING],
         }
@@ -53,13 +51,6 @@ class TestNavStateMachine(unittest.TestCase):
         result = self.transition_to(NavState.RECOVERING)
         self.assertFalse(result)
         self.assertEqual(self.current_state, NavState.IDLE)
-    
-    def test_navigating_to_avoiding(self):
-        """Test transition from NAVIGATING to AVOIDING."""
-        self.current_state = NavState.NAVIGATING
-        result = self.transition_to(NavState.AVOIDING)
-        self.assertTrue(result)
-        self.assertEqual(self.current_state, NavState.AVOIDING)
     
     def test_navigating_to_idle_on_goal_reached(self):
         """Test transition to IDLE when goal is reached."""

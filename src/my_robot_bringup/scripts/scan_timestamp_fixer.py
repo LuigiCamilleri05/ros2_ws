@@ -20,20 +20,20 @@ class ScanTimestampFixer(Node):
         # QoS for sensor data - match Gazebo bridge output
         sensor_qos = QoSProfile(
             depth=10,
-            reliability=ReliabilityPolicy.BEST_EFFORT,
-            durability=DurabilityPolicy.VOLATILE
+            reliability=ReliabilityPolicy.BEST_EFFORT, # Best effort for sensor data
+            durability=DurabilityPolicy.VOLATILE # Don't store messages for late subscribers
         )
         
         # QoS for republished data - reliable for Nav2
         reliable_qos = QoSProfile(
             depth=10,
-            reliability=ReliabilityPolicy.RELIABLE,
-            durability=DurabilityPolicy.VOLATILE
+            reliability=ReliabilityPolicy.RELIABLE, # Keeps messages for Nav2
+            durability=DurabilityPolicy.VOLATILE # Don't store messages for late subscribers
         )
         
         # Subscribe to original scan
         self.scan_sub = self.create_subscription(
-            LaserScan,
+            LaserScan, # Message type
             '/scan_raw',  # We'll remap /scan to /scan_raw in launch
             self.scan_callback,
             sensor_qos

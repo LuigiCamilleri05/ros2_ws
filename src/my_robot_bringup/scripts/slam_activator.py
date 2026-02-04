@@ -38,6 +38,7 @@ class SlamActivator(Node):
         
         self.get_logger().info('SLAM Toolbox activated successfully!')
         
+    # Calls the change_state service with the given transition ID    
     def call_transition(self, transition_id):
         request = ChangeState.Request()
         request.transition.id = transition_id

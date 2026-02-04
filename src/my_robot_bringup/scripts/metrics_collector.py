@@ -24,7 +24,81 @@ import os
 from datetime import datetime
 import math
 import psutil
+# Metrics file contains all the raw data for analysis and debugging
+# Summary file containes aggregate metrics like overall success rate and average time, for quick reference
 
+def calculate_distance(x1: float, y1: float, x2: float, y2: float) -> float:
+    """Calculate Euclidean distance between two points."""
+    return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+
+
+def calculate_path_length(positions: list) -> float:
+    """
+    Calculate total path length from a list of (x, y) positions.
+    
+    Args:
+        positions: List of (x, y) tuples representing waypoints
+        
+    Returns:
+        Total path length in meters
+    """
+    if len(positions) < 2:
+        return 0.0
+    
+    total = 0.0
+    for i in range(1, len(positions)):
+        total += calculate_distance(
+            positions[i-1][0], positions[i-1][1],
+            positions[i][0], positions[i][1]
+        )
+    return total
+
+
+def calculate_path_efficiency(optimal_distance: float, actual_distance: float) -> float:
+    """
+    Calculate path efficiency as percentage.
+    
+    100% = perfect (actual == optimal)
+    50% = actual path was twice as long as optimal
+    
+    Args:
+        optimal_distance: Straight-line distance to goal
+        actual_distance: Actual distance traveled
+        
+    Returns:
+        Efficiency percentage (0-100+)
+    """
+    if actual_distance <= 0:
+        return 0.0
+    return (optimal_distance / actual_distance) * 100
+
+
+def calculate_success_rate(successful: int, total: int) -> float:
+    """
+    Calculate success rate as percentage.
+    
+    Args:
+        successful: Number of successful tests
+        total: Total number of tests
+        
+    Returns:
+        Success rate percentage (0-100)
+    """
+    if total <= 0:
+        return 0.0
+    return (successful / total) * 100
+
+
+def calculate_average(values: list) -> float:
+    """Calculate average of a list of values."""
+    if not values:
+        return 0.0
+    return sum(values) / len(values)
+
+
+# ============================================================================
+# ROS Node
+# ============================================================================
 
 class MetricsCollector(Node):
     def __init__(self):
@@ -98,9 +172,9 @@ class MetricsCollector(Node):
         self.current_pose = (x, y)
         
         if self.is_navigating and self.last_pose:
-            dx = x - self.last_pose[0]
-            dy = y - self.last_pose[1]
-            self.distance_traveled += math.sqrt(dx*dx + dy*dy)
+            self.distance_traveled += calculate_distance(
+                self.last_pose[0], self.last_pose[1], x, y
+            )
         
         self.last_pose = (x, y)
     
@@ -120,9 +194,7 @@ class MetricsCollector(Node):
         start_y = self.current_pose[1] if self.current_pose else 0
         
         # Calculate optimal (straight-line) path length
-        self.optimal_path_length = math.sqrt(
-            (goal_x - start_x)**2 + (goal_y - start_y)**2
-        )
+        self.optimal_path_length = calculate_distance(start_x, start_y, goal_x, goal_y)
         
         self.current_test = {
             'test_id': self.test_count,
@@ -151,12 +223,9 @@ class MetricsCollector(Node):
         if not self.is_navigating:
             return
             
-        # Calculate path length
-        path_length = 0.0
-        for i in range(1, len(msg.poses)):
-            dx = msg.poses[i].pose.position.x - msg.poses[i-1].pose.position.x
-            dy = msg.poses[i].pose.position.y - msg.poses[i-1].pose.position.y
-            path_length += math.sqrt(dx*dx + dy*dy)
+        # Calculate path length using helper function
+        positions = [(p.pose.position.x, p.pose.position.y) for p in msg.poses]
+        path_length = calculate_path_length(positions)
         
         if self.planned_path_length > 0:
             self.replan_count += 1
@@ -195,15 +264,13 @@ class MetricsCollector(Node):
         end_time = datetime.now()
         duration = (self.get_clock().now() - self.nav_start_time).nanoseconds / 1e9
         
-        # Calculate path efficiency (optimal / actual * 100)
-        # 100% means perfect efficiency, lower means more deviation
-        if self.distance_traveled > 0:
-            path_efficiency = (self.optimal_path_length / self.distance_traveled) * 100
-        else:
-            path_efficiency = 0.0
+        # Calculate path efficiency using helper function
+        path_efficiency = calculate_path_efficiency(
+            self.optimal_path_length, self.distance_traveled
+        )
         
-        # CPU metrics
-        avg_cpu = sum(self.cpu_samples) / len(self.cpu_samples) if self.cpu_samples else 0.0
+        # CPU metrics using helper function
+        avg_cpu = calculate_average(self.cpu_samples)
         max_cpu = max(self.cpu_samples) if self.cpu_samples else 0.0
         
         # Update aggregate metrics
@@ -244,8 +311,8 @@ class MetricsCollector(Node):
         self.get_logger().info(f'  Replans: {self.replan_count} | Recoveries: {self.recovery_count}')
         self.get_logger().info(f'  CPU: avg={avg_cpu:.1f}% max={max_cpu:.1f}%')
         
-        # Log running success rate
-        success_rate = (self.successful_tests / self.total_tests) * 100
+        # Log running success rate using helper function
+        success_rate = calculate_success_rate(self.successful_tests, self.total_tests)
         self.get_logger().info(f'  Running success rate: {success_rate:.1f}% ({self.successful_tests}/{self.total_tests})')
         
         self.current_test = {}
@@ -255,7 +322,7 @@ class MetricsCollector(Node):
         if self.total_tests == 0:
             return
             
-        success_rate = (self.successful_tests / self.total_tests) * 100
+        success_rate = calculate_success_rate(self.successful_tests, self.total_tests)
         avg_time = self.total_time_to_goal / self.successful_tests if self.successful_tests > 0 else 0
         avg_efficiency = self.total_path_efficiency / self.successful_tests if self.successful_tests > 0 else 0
         

@@ -1,103 +1,168 @@
 #!/usr/bin/env python3
 """
 Unit tests for the MetricsCollector node.
-Tests metric calculations without requiring ROS infrastructure.
+Tests the actual calculation functions from metrics_collector.py.
 """
 
 import unittest
-import math
+import sys
 import os
-import tempfile
+
+# Add scripts directory to path so we can import metrics_collector
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'scripts'))
+
+from scripts.metrics_collector import (
+    calculate_distance,
+    calculate_path_length,
+    calculate_path_efficiency,
+    calculate_success_rate,
+    calculate_average
+)
 
 
-class TestPathEfficiencyCalculation(unittest.TestCase):
-    """Test path efficiency calculations."""
+class TestCalculateDistance(unittest.TestCase):
+    """Test the calculate_distance function."""
+    
+    def test_horizontal_distance(self):
+        """Test horizontal distance calculation."""
+        result = calculate_distance(0, 0, 3, 0)
+        self.assertAlmostEqual(result, 3.0, places=5)
+    
+    def test_vertical_distance(self):
+        """Test vertical distance calculation."""
+        result = calculate_distance(0, 0, 0, 4)
+        self.assertAlmostEqual(result, 4.0, places=5)
+    
+    def test_diagonal_distance(self):
+        """Test 3-4-5 right triangle."""
+        result = calculate_distance(0, 0, 3, 4)
+        self.assertAlmostEqual(result, 5.0, places=5)
+    
+    def test_same_point(self):
+        """Distance to same point should be zero."""
+        result = calculate_distance(5, 5, 5, 5)
+        self.assertAlmostEqual(result, 0.0, places=5)
+    
+    def test_negative_coordinates(self):
+        """Test with negative coordinates."""
+        result = calculate_distance(-1, -1, 2, 3)
+        expected = 5.0  # 3-4-5 triangle
+        self.assertAlmostEqual(result, expected, places=5)
+
+
+class TestCalculatePathLength(unittest.TestCase):
+    """Test the calculate_path_length function."""
+    
+    def test_straight_line_path(self):
+        """Test distance for straight movement."""
+        positions = [(0, 0), (1, 0), (2, 0), (3, 0)]
+        result = calculate_path_length(positions)
+        self.assertAlmostEqual(result, 3.0, places=5)
+    
+    def test_diagonal_path(self):
+        """Test distance for diagonal movement."""
+        positions = [(0, 0), (1, 1), (2, 2)]
+        result = calculate_path_length(positions)
+        expected = 2 * (2 ** 0.5)  # Two diagonal moves
+        self.assertAlmostEqual(result, expected, places=5)
+    
+    def test_l_shaped_path(self):
+        """Test L-shaped path."""
+        positions = [(0, 0), (3, 0), (3, 4)]
+        result = calculate_path_length(positions)
+        self.assertAlmostEqual(result, 7.0, places=5)
+    
+    def test_single_point(self):
+        """Single point should have zero length."""
+        result = calculate_path_length([(0, 0)])
+        self.assertAlmostEqual(result, 0.0, places=5)
+    
+    def test_empty_path(self):
+        """Empty path should have zero length."""
+        result = calculate_path_length([])
+        self.assertAlmostEqual(result, 0.0, places=5)
+
+
+class TestCalculatePathEfficiency(unittest.TestCase):
+    """Test the calculate_path_efficiency function."""
     
     def test_perfect_efficiency(self):
         """Straight line path should be 100% efficient."""
-        optimal_distance = 5.0
-        actual_distance = 5.0
-        efficiency = (optimal_distance / actual_distance) * 100
-        self.assertAlmostEqual(efficiency, 100.0, places=1)
+        result = calculate_path_efficiency(5.0, 5.0)
+        self.assertAlmostEqual(result, 100.0, places=1)
     
     def test_50_percent_efficiency(self):
         """Path twice as long as optimal should be 50% efficient."""
-        optimal_distance = 5.0
-        actual_distance = 10.0
-        efficiency = (optimal_distance / actual_distance) * 100
-        self.assertAlmostEqual(efficiency, 50.0, places=1)
+        result = calculate_path_efficiency(5.0, 10.0)
+        self.assertAlmostEqual(result, 50.0, places=1)
     
-    def test_optimal_distance_calculation(self):
-        """Test straight-line distance calculation."""
-        start_x, start_y = 0.0, 0.0
-        goal_x, goal_y = 3.0, 4.0
-        optimal = math.sqrt((goal_x - start_x)**2 + (goal_y - start_y)**2)
-        self.assertAlmostEqual(optimal, 5.0, places=5)
+    def test_25_percent_efficiency(self):
+        """Path 4x as long as optimal should be 25% efficient."""
+        result = calculate_path_efficiency(5.0, 20.0)
+        self.assertAlmostEqual(result, 25.0, places=1)
+    
+    def test_zero_actual_distance(self):
+        """Zero actual distance should return 0% efficiency."""
+        result = calculate_path_efficiency(5.0, 0.0)
+        self.assertAlmostEqual(result, 0.0, places=1)
+    
+    def test_negative_actual_distance(self):
+        """Negative actual distance should return 0% efficiency."""
+        result = calculate_path_efficiency(5.0, -1.0)
+        self.assertAlmostEqual(result, 0.0, places=1)
 
 
-class TestSuccessRateCalculation(unittest.TestCase):
-    """Test success rate calculations."""
+class TestCalculateSuccessRate(unittest.TestCase):
+    """Test the calculate_success_rate function."""
     
     def test_all_successful(self):
         """100% success rate when all tests pass."""
-        successful = 10
-        total = 10
-        rate = (successful / total) * 100
-        self.assertEqual(rate, 100.0)
+        result = calculate_success_rate(10, 10)
+        self.assertEqual(result, 100.0)
     
     def test_half_successful(self):
         """50% success rate."""
-        successful = 5
-        total = 10
-        rate = (successful / total) * 100
-        self.assertEqual(rate, 50.0)
+        result = calculate_success_rate(5, 10)
+        self.assertEqual(result, 50.0)
     
     def test_none_successful(self):
         """0% success rate."""
-        successful = 0
-        total = 10
-        rate = (successful / total) * 100
-        self.assertEqual(rate, 0.0)
-
-
-class TestDistanceTraveled(unittest.TestCase):
-    """Test distance traveled accumulation."""
+        result = calculate_success_rate(0, 10)
+        self.assertEqual(result, 0.0)
     
-    def test_straight_line_distance(self):
-        """Test distance calculation for straight movement."""
-        positions = [(0, 0), (1, 0), (2, 0), (3, 0)]
-        distance = 0.0
-        for i in range(1, len(positions)):
-            dx = positions[i][0] - positions[i-1][0]
-            dy = positions[i][1] - positions[i-1][1]
-            distance += math.sqrt(dx*dx + dy*dy)
-        self.assertAlmostEqual(distance, 3.0, places=5)
+    def test_zero_total(self):
+        """Zero total tests should return 0%."""
+        result = calculate_success_rate(0, 0)
+        self.assertEqual(result, 0.0)
     
-    def test_diagonal_distance(self):
-        """Test distance calculation for diagonal movement."""
-        positions = [(0, 0), (1, 1), (2, 2)]
-        distance = 0.0
-        for i in range(1, len(positions)):
-            dx = positions[i][0] - positions[i-1][0]
-            dy = positions[i][1] - positions[i-1][1]
-            distance += math.sqrt(dx*dx + dy*dy)
-        expected = 2 * math.sqrt(2)  # Two diagonal moves
-        self.assertAlmostEqual(distance, expected, places=5)
+    def test_negative_total(self):
+        """Negative total should return 0%."""
+        result = calculate_success_rate(5, -1)
+        self.assertEqual(result, 0.0)
 
 
-class TestPathLengthCalculation(unittest.TestCase):
-    """Test planned path length calculation."""
+class TestCalculateAverage(unittest.TestCase):
+    """Test the calculate_average function."""
     
-    def test_simple_path(self):
-        """Test path length for simple waypoints."""
-        # Simulated path poses (x, y)
-        path_poses = [(0, 0), (1, 0), (1, 1), (2, 1)]
-        path_length = 0.0
-        for i in range(1, len(path_poses)):
-            dx = path_poses[i][0] - path_poses[i-1][0]
-            dy = path_poses[i][1] - path_poses[i-1][1]
-            path_length += math.sqrt(dx*dx + dy*dy)
-        self.assertAlmostEqual(path_length, 3.0, places=5)
+    def test_simple_average(self):
+        """Test simple average calculation."""
+        result = calculate_average([10, 20, 30])
+        self.assertAlmostEqual(result, 20.0, places=5)
+    
+    def test_single_value(self):
+        """Single value average."""
+        result = calculate_average([42])
+        self.assertAlmostEqual(result, 42.0, places=5)
+    
+    def test_empty_list(self):
+        """Empty list should return 0."""
+        result = calculate_average([])
+        self.assertAlmostEqual(result, 0.0, places=5)
+    
+    def test_decimal_average(self):
+        """Test average with decimals."""
+        result = calculate_average([1, 2, 3, 4])
+        self.assertAlmostEqual(result, 2.5, places=5)
 
 
 if __name__ == '__main__':

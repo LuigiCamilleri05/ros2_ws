@@ -20,8 +20,10 @@ class OdomToTF(Node):
         qos = QoSProfile(depth=10)
         qos.reliability = ReliabilityPolicy.RELIABLE
         
+        # TF broadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
         
+        # Subscribe to /odom topic
         self.subscription = self.create_subscription(
             Odometry,
             '/odom',
@@ -31,6 +33,7 @@ class OdomToTF(Node):
         
         self.get_logger().info('OdomToTF node started - broadcasting odom -> base_link')
 
+    # Translates Odometry messages to TF
     def odom_callback(self, msg: Odometry):
         t = TransformStamped()
         

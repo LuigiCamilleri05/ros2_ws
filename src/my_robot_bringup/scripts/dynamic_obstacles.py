@@ -11,9 +11,10 @@ class DynamicObstacleController(Node):
     def __init__(self):
         super().__init__('dynamic_obstacle_controller')
 
-        # IMPORTANT: use Gazebo simulation time (/clock)
+        # Use Gazebo simulation time (/clock)
         self.set_parameters([Parameter('use_sim_time', Parameter.Type.BOOL, True)])
 
+        # Publishes to the slider joint command topics of three dynamic boxes
         self.pubs = [
             self.create_publisher(Float64, '/model/dyn_box_01/joint/slider_joint/cmd_pos', 10),
             self.create_publisher(Float64, '/model/dyn_box_02/joint/slider_joint/cmd_pos', 10),
@@ -30,7 +31,7 @@ class DynamicObstacleController(Node):
         now = self.get_clock().now()
 
         # Wait until /clock is active (sometimes starts at 0)
-        t = now.nanoseconds * 1e-9
+        t = now.nanoseconds * 1e-9 # Converts nanoseconds to seconds
         if t <= 0.0:
             return
 
@@ -39,19 +40,21 @@ class DynamicObstacleController(Node):
             self.t0 = t
 
         # If simulation reset or time jumped backwards, restart phase smoothly
+        # Incase gazebo crashes or relaunches
         if t < self.t0:
             self.t0 = t
 
         # Time since start (sim time)
         dt = t - self.t0
 
-        # Sine-wave commands (repeat forever)
+        # Sine-wave commands for each box, with different frequencies and amplitudes for the movement patterns
         cmds = [
             3.0 * math.sin(0.5 * dt),   # dyn_box_01: [-3, 3]
             2.3 * math.sin(0.7 * dt),   # dyn_box_02: [-2.5, 2.5]
             4.0 * math.sin(0.4 * dt),   # dyn_box_03: [-4, 4]
         ]
 
+        # Pairs each publisher with its command and publishes
         for pub, val in zip(self.pubs, cmds):
             msg = Float64()
             msg.data = float(val)

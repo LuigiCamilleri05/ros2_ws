@@ -33,26 +33,26 @@ class CameraPointCloudProcessor(Node):
         
         # QoS for sensor data - best effort to match Gazebo bridge
         sensor_qos = QoSProfile(
-            reliability=ReliabilityPolicy.BEST_EFFORT,
-            durability=DurabilityPolicy.VOLATILE,
-            history=HistoryPolicy.KEEP_LAST,
-            depth=5
+            reliability=ReliabilityPolicy.BEST_EFFORT, # Don't retry failed messages
+            durability=DurabilityPolicy.VOLATILE, # Don't store messages for late subscribers
+            history=HistoryPolicy.KEEP_LAST, # Only keep recent messages
+            depth=5 # Keep last 5 messages in queue
         )
         
         # QoS for output - reliable for Nav2 compatibility
         output_qos = QoSProfile(
-            reliability=ReliabilityPolicy.RELIABLE,
-            durability=DurabilityPolicy.VOLATILE,
-            history=HistoryPolicy.KEEP_LAST,
-            depth=5
+            reliability=ReliabilityPolicy.RELIABLE, # Guarantee message delivery
+            durability=DurabilityPolicy.VOLATILE, # Don't store messages for late subscribers
+            history=HistoryPolicy.KEEP_LAST, # Only keep recent messages
+            depth=5 # Keep last 5 messages in queue
         )
         
         # Subscribe to raw point cloud from Gazebo
         self.subscription = self.create_subscription(
-            PointCloud2,
-            input_topic,
-            self.pointcloud_callback,
-            sensor_qos
+            PointCloud2, # Message type (3d point cloud)
+            input_topic, # /camera/points from Gazebo bridge
+            self.pointcloud_callback, # Function to call when a message is received
+            sensor_qos # QoS profile
         )
         
         # Publisher for processed point cloud
@@ -86,7 +86,7 @@ class CameraPointCloudProcessor(Node):
         processed_msg.data = msg.data
         processed_msg.is_dense = msg.is_dense
         
-        # Fix header with current time and correct frame
+        # Fix header with current time and correct frame (main purpose)
         processed_msg.header.stamp = self.get_clock().now().to_msg()
         processed_msg.header.frame_id = self.frame_id
         
