@@ -48,11 +48,6 @@
         <param name="use_sim_time" value="$(var use_sim_time)" />
     </node>
 
-    <!-- TF Republisher - fixes static transform timestamp issues in slow simulations -->
-    <node pkg="my_robot_bringup" exec="tf_republisher.py" name="tf_republisher">
-        <param name="use_sim_time" value="$(var use_sim_time)" />
-    </node>
-
     <!-- Nav2 bringup - both navigation and localization together -->
     <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
         <arg name="use_sim_time" value="$(var use_sim_time)" />
