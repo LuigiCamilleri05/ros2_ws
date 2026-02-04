@@ -35,7 +35,7 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch config worlds maps
+install(DIRECTORY launch config worlds maps urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
